@@ -1,89 +1,189 @@
 body {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background: #fc1e8a;
-    user-select: none; /*nao permiti selecionar os elementos ( emojis )*/
+    background: #020617;      
+    user-select: none;  /* Impede seleção de texto/emojis */
+    margin: 0;
 }
 
-.container{
-    position: relative;
+.container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 30px;
-    background: linear-gradient(
-        325deg, #03001e 0%, #7303c0 30%, #ec38bc 70%, #fdeff9 100%
-    );
-    padding: 40px 60px;
-}
+    gap: 16px;
 
-h2{
-    font-size: 3em;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 0.1em; /*espaço entre as letras*/
-}
+    background: #030712;      
+    padding: 24px;
+    border: 2px solid #22d3ee; 
+    border-radius: 16px;
+    box-shadow: 0 0 18px rgba(34, 211, 238, 0.35);
 
-.reset{
-    padding: 15px 20px;
+    max-width: 400px;
     width: 100%;
-    color: #000;
-    background-color: #ffffff;
-    border: none;
-     font-size: 1.5em;
-     letter-spacing: 0.1em;
-     text-transform: uppercase;
-     cursor: pointer;
-     font-weight: 600;
 }
 
-.reset:focus{
-    color: #ec38bc;
-    background-color: #262809;
+h2 {
+    font-size: 2rem;
+    color: #e5e7eb;
+    text-transform: uppercase;
+    letter-spacing: 0.15em; /*espaçamento entre as letras*/
+    margin: 0;
 }
 
-.game{
-    width: 430px;
-    height: 430px;
+.painel {
+    width: 100%;
+    padding: 12px 16px;
+
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    transform-style: preserve-3d;
-    perspective: 500px;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #020617;
+    border: 2px solid #7c3aed;   
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.35);
+
+    font-size: 0.9rem;
 }
 
-.item{
-    position: relative;
-    width: 100px;
-    height: 100px;
+#record,
+#timer,
+#movimentos,
+.textPainel {
+    color: #22d3ee;              
+}
+
+.reset {
+    width: 100%;
+    padding: 14px;
+
+    background: #e5e7eb;
+    color: #020617;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.reset:hover {
+    background: #22d3ee;
+}
+
+.reset:focus {
+    outline: none;
+}
+
+.ocultarBotao {
+    display: none;
+}
+
+.game {
+    width: 100%;
+    max-width: 340px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+
+    perspective: 600px;
+}
+
+.item {
+    aspect-ratio: 1 / 1;          /* Mantém quadrado perfeito */
+
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
-    font-size: 3em;
+
+    background: #7c3aed;        
+    border: 1px solid #334155;
+    border-radius: 12px;
+
+    font-size: 2rem;
+    cursor: pointer;
+
     transform: rotateY(180deg);
-    transition: 0.25s;
+    transition: transform 0.25s;
 }
 
-.item::after{
+/* Parte traseira da carta (fechada) */
+.item::after {
     content: "";
     position: absolute;
-    inset: 0; /*seta o ponto 0, para sobrepor o elemento por inteiro*/
-    background: #404040;
+    inset: 0;
+
+    background: #111827;        
+    border-radius: 12px;
+
+    backface-visibility: hidden;
+    transform: rotateY(0deg);
     transition: 0.25s;
-    transform: rotateY(0deg);
-    backface-visibility: hidden; /*oculta a parte de tras do card, para os emojis nao aparecerem*/
-    cursor: pointer;
 }
 
-.item.boxOpen{
+/* Carta aberta */
+.item.boxOpen {
     transform: rotateY(0deg);
 }
 
-.boxOpen::after, 
-.boxMatch::after{
+/* Carta aberta ou combinada */
+.boxOpen::after,
+.boxMatch::after {
     transform: rotateY(180deg);
+    background: #22c55e;      
+}
+
+
+/* RESPONSIVIDADE */
+@media (max-width: 480px) {
+    .container{
+        height: 100vh;
+        width: 100vw;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .game {
+        /* Define 3 colunas iguais dentro de um CSS Grid. */
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 300px;
+    }
+
+    .item {
+        font-size: 3rem;
+    }
+    .painel{
+        align-items: baseline;
+        flex-direction: column;
+        font-size: 1.5rem;
+        gap: 14px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .container{
+        height: 45em;
+        width: 28em;
+    }
+    .game {
+        max-width: 300px;
+    }
+    .painel{
+        align-items: baseline;
+        flex-direction: column;
+        font-size: 1.5rem;
+        gap: 14px;
+    }
 }
