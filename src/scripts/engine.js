@@ -36,6 +36,9 @@ let bloqueio = false;
 // Cria os cards com emojis
 criarCards();
 
+// Adiciona efeito sonoro inicial
+playSound("cartas-embaralhando");
+
 // Exibe o recorde
 atualizarRecordeNaTela();
 
@@ -59,6 +62,8 @@ function handleClick(){
     if (bloqueio || this.classList.contains("boxOpen") || this.classList.contains("boxMatch")) return;
     // Adiciona a classe "boxOpen" para virar o card
     this.classList.add("boxOpen");
+    // Adiciona efeito sonoro
+    playSound("carta-virando");
     // Adiciona na variavel openCards 
     openCards.push(this);
     
@@ -78,10 +83,14 @@ function checkMatch() {
         // Adicina a classe "boxMatch" nos dois para manter virados
         openCards[0].classList.add("boxMatch");
         openCards[1].classList.add("boxMatch");
+        // Adiciona efeito sonoro
+        playSound("carta-par");
     } else {
         // Remove a classe "boxOpen" para virar novamente os cards
         openCards[0].classList.remove("boxOpen");
         openCards[1].classList.remove("boxOpen");
+        // Adiciona efeito sonoro
+        playSound("carta-virando-o-verso");
     }
     movimentos++;
 exibirMovimentos.textContent = "Movimentos: " + movimentos;
@@ -92,6 +101,9 @@ exibirMovimentos.textContent = "Movimentos: " + movimentos;
 
     // Verifica se todos os cards com a classe ".boxMatch" são da mesma quantidade que o valor total de cards
     if(document.querySelectorAll(".boxMatch").length === emojis.length){
+        // Adiciona efeito sonoro
+        playSound("game-won");
+
         // Exibe a mensagem que o usuario ganhou, e o tempo conseguido
         alert("Parabéns! Seu tempo foi = " + tempo + " segundos e " + movimentos + " movimentos");
 
@@ -141,6 +153,10 @@ botaoReset.addEventListener("click", resetGame);
 
 // Verifica se o jogador venceu
 function resetGame() {
+
+        // Adiciona efeito sonoro inicial
+        playSound("cartas-embaralhando");
+        
         // Pausa o timer
         pararTimer();
 
@@ -181,4 +197,11 @@ function atualizarRecordeNaTela() {
   } else {
     exibirRecorde.textContent = "Tempo: -- segundos";
   }
+}
+
+// Efeitos sonoros
+function playSound(audioName){
+    let audio = new Audio(`./src/audios/${audioName}.mp3`);
+    audio.volume = 0.5;
+    audio.play();
 }

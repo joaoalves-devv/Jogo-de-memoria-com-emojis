@@ -9,6 +9,7 @@ O jogo consiste em encontrar todos os pares de cartas no menor tempo possível, 
 ## 🎮 Funcionalidades
 
 * ⏱️ **Timer automático** iniciado no primeiro clique
+* ♟ **Contagem de Movimentos** iniciado sempre que se abrem duas cartas
 * 🏆 **Sistema de recorde** utilizando `localStorage`
 * 📊 **Painel informativo** exibindo tempo atual e melhor recorde
 * 🔄 **Botão de reinício** exibido apenas ao final da partida
