@@ -19,14 +19,16 @@ const emojis = [
 ];
 // variavel para guardar os cards que estão virados
 let openCards = [];
+// Variavel para o numero de movimentos
+let movimentos = 0;
+// Local que exibe o numero de movimentos no painel
+const exibirMovimentos = document.getElementById("movimentos");
 // Botão de resetar game
 const botaoReset = document.getElementById("botao-reset");
 // Local que ficara os cards
-const game = document.getElementById("game");
+const game = document.querySelector(".game");
 // Local que exibe o record no painel
 const exibirRecorde = document.getElementById("record");
-// Variavel que pega a chave que armazena o recorde atual no navegador
-const recordeSalvo = localStorage.getItem("recorde");
 
 // variavel auxiliar para impedir que o usuario abra 3 cartas se clicar rapido de mais
 let bloqueio = false;
@@ -38,7 +40,6 @@ criarCards();
 atualizarRecordeNaTela();
 
 function criarCards() {
-  const game = document.querySelector(".game");
   game.innerHTML = ""; // limpa os cards antigos
   
     // Embaralha o array emojis aleatoriamente
@@ -82,6 +83,9 @@ function checkMatch() {
         openCards[0].classList.remove("boxOpen");
         openCards[1].classList.remove("boxOpen");
     }
+    movimentos++;
+exibirMovimentos.textContent = "Movimentos: " + movimentos;
+
     // Limpa a variavel de cards abertos
     openCards = [];
     bloqueio = false;
@@ -89,7 +93,7 @@ function checkMatch() {
     // Verifica se todos os cards com a classe ".boxMatch" são da mesma quantidade que o valor total de cards
     if(document.querySelectorAll(".boxMatch").length === emojis.length){
         // Exibe a mensagem que o usuario ganhou, e o tempo conseguido
-        alert("Parabéns! Seu tempo foi = " + tempo + " segundos");
+        alert("Parabéns! Seu tempo foi = " + tempo + " segundos e " + movimentos + " movimentos");
 
         // Pausa o timer
         pararTimer();
@@ -108,8 +112,8 @@ let tempo = 0;
 
 // Variavel auxiliar para a função iniciarTimer()
 let intervalo = null;
-// Função para inciar o timer
 
+// Função para inciar o timer
 function iniciarTimer() {
 // evita múltiplos timers
   if (intervalo !== null) return; 
@@ -144,9 +148,11 @@ function resetGame() {
         tempo = 0;
         openCards = [];
         bloqueio = false;
+        movimentos = 0;
 
         // Atualiza o painel
         timer.textContent = "Tempo: 0 segundos";
+        exibirMovimentos.textContent = "Movimentos: 0";
 
         // Esconde o botão novamente
         botaoReset.classList.add("ocultarBotao");
@@ -168,10 +174,11 @@ function salvarRecorde(tempo) {
 
 function atualizarRecordeNaTela() {
   const recordeAtual = localStorage.getItem("recorde");
+  totalMovimentos = movimentos;
   // Exibe o recorde atual no painel do jogador
   if (recordeAtual) {
-    exibirRecorde.textContent = "Seu Recorde atual é: " + recordeAtual + " segundos";
+    exibirRecorde.textContent = "Tempo: " + recordeAtual + " segundos";
   } else {
-    exibirRecorde.textContent = "Seu Recorde atual é: --";
+    exibirRecorde.textContent = "Tempo: -- segundos";
   }
 }
